@@ -1,0 +1,254 @@
+/**********************************************************
+ * Useful Terminal Commands
+ *********************************************************/
+// Creating new EFI partition
+sudo newfs_msdos -v EFI -F 32 /dev/rdisk0s1
+
+// Kernel Log
+sudo dmesg
+
+/**********************************************************
+ * Preparing the USB drive
+ * Neet at least 8GB or more space
+ *
+ * To prepare USB you need an active hackintosh or MAC
+ * Pre-requisites : Download Yosemite from App Store
+ *********************************************************/
+
+// Create Partitions
+----------------------------------------------------------/
+1. Go to "Disk Utility" (from Finder > Utilities > Disk Utility)
+2. Select the USB partition
+3. Go to "Partition" tab and create two partitions
+	-> 1st Partition : Name ("CLOVER"), Format(MS-DOS(FAT)), Size (Greater than 300MB)
+	-> 2nd Partition : Name ("MacUSB"), Format(Mac OS Extended), Size(Greater than 7GB)
+4. Select "Options" and select "Master Boot Record"
+5. Click "Apply"
+
+// Get Clover Ready
+----------------------------------------------------------/
+NEED TO DO
+
+// Get Yosemite.app ready
+----------------------------------------------------------/
+Transfer Yosemite install application from the app store
+by using the following terminal script :
+
+sudo /Applications/Install\ OS\ X\ Yosemite.app/Contents/Resources/createinstallmedia --volume /Volumes/USB --applicationpath /Applications/Install\ OS\ X\ Yosemite.app --no interaction
+
+Yosemite installer will be copied and renamed to "Install OS X Yosemite" under MacUSB drive.
+
+
+
+/**********************************************************
+ * Setting Up BIOS
+ *********************************************************/
+
+1. Goto BIOS and set this configurations
+Keyboard Function : Function Mode
+Disk : AHCI
+Rapid Storage : Disabled
+UEFI Boot : Enable
+Secure Boot : Disable
+Legacy Rom : Disable
+
+2. Add boot option : add from USB (/EFI/Boot/Bootx64.efi)
+3. Make "USB" first boot device
+4. Save settings an reboot
+
+
+
+/**********************************************************
+ * Installing Yosemite
+ *********************************************************/
+
+// Boot from USB
+----------------------------------------------------------/
+1. Boot using USB
+2. Clover bootloader will appear (if not, try cofiguring the BIOS again)
+3. Select "Boot OS X Install" (from MacUSB partition)
+
+If all goes well, you will be able to load the installer from your USB stick.
+
+// Installing OS X
+----------------------------------------------------------/
+# Note : There are TWO PHASE in the installation process.
+
+1. Go to disk utility and format the you installation drive as GPT
+2. Create a partition using "Mac OS X Extended" scheme
+3. Install Yosemite in the formatted partition
+
+# Note : Installer will extract files needed to be installed into your system. It will take a lot of time, although it will show only few minutes remaining. This will end "PART 1" of installation.
+
+4. Machine will autometically restart .
+
+5. Again boot screen will load and you have to select once again "Boot OS X Install" (from MacUSB partition, NOT your installation partition). This time, installer will install files to your target partition and create "HD Recovery" partition.
+
+# Note : This will end PHASE 2
+
+6. After finishing installation, installer will autometically restart the machine. While booting from USB (after clover screen appears), press "F4" from keyboard. It will dump "DSDT/SSDT" for your system on EFI partition.
+
+7. Select "Boot OS X" from "YourPartition".
+
+8. If all goes well, you will be able to boot directly into your Yosemite Desktop.
+
+# Note : The bootloader is still not installed on your drive. So you cannot remove the USB at this point.
+
+
+
+/**********************************************************
+ * Yosemite Post Installations
+ *********************************************************/
+
+// Installing required kexts (without Graphics Kexts)
+// And Configuring Clover
+----------------------------------------------------------/
+
+# Note : Download "Hackintosh Vietnam Tool" from http://www.insanelymac.com/forum/files/file/210-hackintosh-vietnam-ultimate-aio-tool/
+
+1. Run the tool, select following options and install :
+	-> Clover UEFI
+	-> Kexts > Graphics > HD 4400/4600 DP/HDMI
+	-> Ethernet > RTL8111 (for 7x37) or RTL8100 (for 3x37-5x37)
+	-> Tools > IASL
+	-> Tools > MacIASL
+	-> Tools > Clover Configurator
+	-> Tools > SSDT Generator
+	-> Fixes > Hibernate Mode > Disable Hibernate
+
+2. Use "Kext Wizard" for installing the given kexts in the followling links :
+	-> http://adf.ly/8745615/kextdell
+	-> http://adf.ly/8745615/applehdadell
+
+3. Copy "config.plist" from USB to your systems "/EFI/Clover/EFI" partition, then use "Clover Configurator" to open config.plist (from your system partition).
+
+4. Edit these values and save:
+	-> Uncheck : GeneratePStates, GenerateCStates
+	-> SMBIOS : Create new SMBIOS (Macbook Air 6.2) with number of random series
+
+# Note : Clover still not configured fully yet. You cannot boot from your device partition at this point.
+
+
+// Configuring DSDT Patches
+----------------------------------------------------------/
+
+1. Goto (from USB partition) /EFI/Clover/ACPI/origin/ and you will see a lot of dump files.
+
+2. Copy the files to a folder on desktop named "DSDT" (Copy DSDT.aml and all SSDT-*.aml, nothing else is needed).
+
+3. Got to terminal and put the following commands:
+	-> cd ~/Desktop/DSDT
+	-> iasl -da DSDT.aml SSDT*.aml
+
+4. Decompiled .dsl files will be created in the DSDT folder.
+
+# Note : If you don't see any .dsl file, check for errors in the terminal, delete the last file that causing error and run again. Don't worry, all SSDT files are not required.
+
+5. Open DSDT.dsl by MacIASL, configure MacIASL using following steps:
+	-> Goto Preferences
+	-> Set compiler options for ACPI 5.0
+	-> Goto source tab and add following :
+		"RehabMan laptop DSDT patches" : "http://raw.github.com/RehabMan/Laptop-DSDT-Patch/master"
+	-> Close the preference window
+
+6. Click "Patch" button and paste following codes :
+
+<!------------------ Start Copying after this line -------------------->
+
+# Syntax errors
+into definitionblock code_regex External\s+\(_SB_\.PCI0\.PEG0\) remove_matched;
+into definitionblock code_regex External\s+\(_SB_\.PCI0\.PEG0\.PEGP\) remove_matched;
+into definitionblock code_regex External\s+\(_SB_\.PCI0\.RP05\.PEGP\) remove_matched;
+into definitionblock code_regex External\s+\(_SB_\.PCI0\.PEG0,\sUnknownObj\) remove_matched;
+into definitionblock code_regex External\s+\(_SB_\.PCI0\.PEG0\.PEGP,\sUnknownObj\) remove_matched;
+into definitionblock code_regex External\s+\(_SB_\.PCI0\.RP05\.PEGP,\sUnknownObj\) remove_matched;
+
+into method label _L69 code_regex Notify\s\(\\_SB\.PCI0\.PEG0\.PEGP,\s0x02\) remove_matched;
+into method label ADBG replace_content begin Return(0) end;
+into method label HRPR code_regex (OperationRegion.*)\\_GPE.MMTB\s+\(0x04\), replace_matched begin %1\\_GPE.MMTB, 0x04)\n end;
+into method label HRPR code_regex (Field\s+\(HRPE.*\n.*\n.*\n.*\})\) replace_matched begin %1 end;
+into method label _WAK code_regex Store\s\(\\_GPE\.MMTB\s\(Local2,\s\\_GPE\.OSUP\s\(Local2\)\),\sStore\s\(Local1,\sREG6\)\) remove_matched;
+into method label _INI code_regex Store\s\(\\_GPE\.MMTB\s\(Local3,\s\\_GPE\.OSUP\s\(Local3\)\),\sStore\s\(Local2,\sREG6\)\) remove_matched;
+into method label _INI parent_label _SB.PCI0 code_regex (Store\s\(\\_GPE\.MMTB.*) replace_matched begin // %1 end;                                                                        
+into method label _WAK code_regex (Store\s\(\\_GPE\.MMTB.*) replace_matched begin // %1 end;
+
+# Prevent freeze caused by WMI
+into method label WMIA replace_content begin // nothing end;
+
+# Force BAT0 device
+into method label _STA parent_label BAT0 replace_content begin Return (0x1F) end;
+
+# Fix PNOT method
+into method label PNOT replace_content begin // nothing end;
+
+# Enable functions keys
+# Override DSDT oemId (for Clover, since it patches with "Apple ")
+into method label _DSM parent_label PS2K remove_entry;
+into device label PS2K insert
+begin
+Method (_DSM, 4, NotSerialized)\n
+{\n
+    If (LEqual (Arg2, Zero)) { Return (Buffer() { 0x03 } ) }\n
+    Return (Package()\n
+    {\n
+        // Note: Function key part seems to not be necessary
+        // "AAPL,has-embedded-fn-keys", Buffer() { 0x01, 0x00, 0x00, 0x00 },\n
+        "RM,oem-id", "DELL",\n
+    })\n
+}\n
+end;
+
+# Inject Audio info
+into method label _DSM parent_label HDEF remove_entry;
+into device label HDEF insert
+begin
+Method (_DSM, 4, NotSerialized)\n
+{\n
+    If (LEqual (Arg2, Zero)) { Return (Buffer() { 0x03 } ) }\n
+    Return (Package()\n
+    {\n
+        "layout-id", Buffer() { 0x56, 0x00, 0x00, 0x00 },\n
+        "hda-gfx", Buffer() { "onboard-1" },\n
+        "PinConfigurations", Buffer() { },\n
+    })\n
+}\n
+end;
+
+<!------------------ Stop Copying before this line -------------------->
+
+7. Click "Compile" to check for errors. If you get "syntax error, unexpected PARSEOP_ZERO", click on the error and you will a lot of continuous Zeros. Delete all Zeros. Then select next error and continue the process until you have no "syntax error, unexpected PARSEOP_ZERO".
+
+8. Click again "Compile", if you have no error, you're good to go (don't worry about the warnings).
+
+9. Click patch again, then apply the following patches from "Rehabman Laptop Patches" (require internet connection) :
+	-> Rename GFX0 to iGPU
+	-> 7-series USB
+	-> Fix IRQ
+	-> SMBUS Fix
+	-> RTC Fix
+	-> Shutdown Fix v2
+	-> HPET Fix
+	-> OS Verification Fix
+	-> AC Adapter Fix
+	-> Add MCHC
+	-> Fix _WAK arg0 v2
+	-> Add IMEI
+
+10. Click compile to check for errors. If no error, save the file to your desktop named "DSDT.aml" with selecting format "ACPI Maching Language Library". Copy your saved "DSDT.aml" to your systems "/EFI/Clover/ACPI/patched/"
+
+11. Copy (from your system) /Extra/ssdt.aml to "/EFI/Clover/ACPI/patched/"
+
+12. Goto DSDT folder (from Desktop), find SSDT-7.dsl and open it by MacIASL. Click "Patch" and apply following patches:
+	-> Rename GFX0 to iGPU
+	-> Haswell HD4400/HD4600/HD5000
+	-> Brightness correction (Haswell)
+
+13. Click "Compile" to check for errors. If no error, save the file with name "SSDT-1.aml" and with format "ACPI Machine Language Library" to your desktop.
+
+14. Move SSDT-1.aml from your desktop to (your system hdd) /EFI/Clover/ACPI/patched/
+
+15. Recheck that "config.plist", "DSDT.aml", "ssdt.aml" and "SSDT-1.aml" are place properly on EFI partition of your HDD.
+
+16. Restart and goto BIOS.
+
+17. Add "/EFI/Clover/Cloverx64.efi" boot entry (your hdd). Move it to the top, save and restart. You should see the clover screen and boot options to Yosemite.
