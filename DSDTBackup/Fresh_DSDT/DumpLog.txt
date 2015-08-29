@@ -1,0 +1,86 @@
+4:826  3:908  Found UEFI Acpi 2.0 RSDP at DABE1000
+4:826  0:000  Saving ACPI tables from RSDP DABE1000 to EFI\CLOVER\ACPI\origin ...
+4:826  0:000   DABE1000: 'RSD PTR ', Rev: 2 (Acpi 2.0 or newer), Len: 36 -> RSDP.aml
+4:913  0:087    (Xsdt: DABE1088, Rsdt: DABE1028)
+4:913  0:000    DABE1088: 'XSDT', 'WN09   ', Rev: 1, Len: 140 -> XSDT.aml
+4:915  0:002    DABE1028: 'RSDT', 'WN09   ', Rev: 1, Len: 88 -> RSDT.aml
+4:918  0:002    Tables in Xsdt: 13
+4:918  0:000    0. DABF1788: 'FACP', 'WN09', Rev: 5, Len: 268 -> FACP.aml
+4:921  0:002        (Dsdt: DABE11A0, Facs: DB56FF80, XDsdt: DABE11A0, XFacs: 0)
+4:921  0:000        DABE11A0: 'DSDT', 'WN09', Rev: 2, Len: 67044 -> DSDT.aml
+4:927  0:006        DB56FF80: 'FACS', Ver: 2, Len: 64 -> FACS.aml
+4:930  0:002    1. DABF1898: 'APIC', 'WN09', Rev: 3, Len: 114 -> APIC.aml
+4:935  0:005    2. DABF1910: 'FPDT', 'WN09', Rev: 1, Len: 68 -> FPDT.aml
+4:940  0:004    3. DABF1958: 'ASF!', ' HCG', Rev: 32, Len: 165 -> ASF!.aml
+4:943  0:002    4. DABF1A00: 'LPIT', '', Rev: 1, Len: 148 -> LPIT.aml
+4:945  0:002    5. DABF1A98: 'SSDT', 'sensrhub', Rev: 1, Len: 552 -> SSDT-0.aml
+4:948  0:002    6. DABF1CC0: 'SSDT', 'CpuPm', Rev: 1, Len: 2776
+ Found hidden SSDT 4 pcs
+4:948  0:000        * D907F598: 'SSDT', 'Cpu0Ist', Rev: 1, Len: 1337  53 53 44 54 39 05 00 00 01 DE 50 6D 52 65 66 00 Internal length = 1337 -> SSDT-2x.aml
+4:951  0:002        * DABCE618: 'SSDT', 'ApIst', Rev: 1, Len: 1450  53 53 44 54 AA 05 00 00 01 D3 50 6D 52 65 66 00 Internal length = 1450 -> SSDT-3x.aml
+4:953  0:002        * DABCEC18: 'SSDT', 'Cpu0Cst', Rev: 1, Len: 979  53 53 44 54 D3 03 00 00 01 B3 50 6D 52 65 66 00 Internal length = 979 -> SSDT-4x.aml
+4:956  0:002        * DAB80D98: 'SSDT', 'ApCst', Rev: 1, Len: 281  53 53 44 54 19 01 00 00 01 EF 50 6D 52 65 66 00 Internal length = 281 -> SSDT-5x.aml
+4:959  0:002   -> SSDT-1.aml
+4:962  0:003    7. DABF2798: 'MCFG', 'WN09', Rev: 1, Len: 60 -> MCFG.aml
+4:964  0:002    8. DABF27D8: 'HPET', 'WN09', Rev: 1, Len: 56 -> HPET.aml
+4:967  0:002    9. DABF2810: 'SSDT', 'SataTabl', Rev: 1, Len: 789 -> SSDT-6.aml
+4:970  0:002    10. DABF2B28: 'SSDT', 'SaSsdt ', Rev: 1, Len: 13733 -> SSDT-7.aml
+4:973  0:002    11. DABF60D0: 'BGRT', 'WN09', Rev: 0, Len: 56 -> BGRT.aml
+4:975  0:002    12. DABF6108: 'CSRT', 'HSWULT-R', Rev: 1, Len: 196 -> CSRT.aml
+4:978  0:002    Tables in Rsdt: 13
+4:978  0:000    0. DABE1118: 'FACP', 'WN09', Rev: 2, Len: 132 -> RSDT-FACP.aml
+4:981  0:002        (Dsdt: DABE11A0, Facs: DB56FF40)
+4:981  0:000        DABE11A0: 'DSDT', 'WN09', Rev: 2, Len: 67044
+4:982  0:001        DB56FF40: 'FACS', Ver: 0, Len: 64 -> RSDT-FACS.aml
+4:985  0:003    1. DABF1898: 'APIC', 'WN09', Rev: 3, Len: 114
+4:985  0:000    2. DABF1910: 'FPDT', 'WN09', Rev: 1, Len: 68
+4:985  0:000    3. DABF1958: 'ASF!', ' HCG', Rev: 32, Len: 165
+4:985  0:000    4. DABF1A00: 'LPIT', '', Rev: 1, Len: 148
+4:985  0:000    5. DABF1A98: 'SSDT', 'sensrhub', Rev: 1, Len: 552
+4:985  0:000    6. DABF1CC0: 'SSDT', 'CpuPm', Rev: 1, Len: 2776
+4:985  0:000    7. DABF2798: 'MCFG', 'WN09', Rev: 1, Len: 60
+4:985  0:000    8. DABF27D8: 'HPET', 'WN09', Rev: 1, Len: 56
+4:985  0:000    9. DABF2810: 'SSDT', 'SataTabl', Rev: 1, Len: 789
+4:985  0:000    10. DABF2B28: 'SSDT', 'SaSsdt ', Rev: 1, Len: 13733
+4:985  0:000    11. DABF60D0: 'BGRT', 'WN09', Rev: 0, Len: 56
+4:985  0:000    12. DABF6108: 'CSRT', 'HSWULT-R', Rev: 1, Len: 196
+4:985  0:000  Found UEFI Acpi 1.0 RSDP at DABE1000
+4:985  0:000  Printing ACPI tables from RSDP DABE1000 ...
+4:985  0:000   DABE1000: 'RSD PTR ', Rev: 2 (Acpi 2.0 or newer), Len: 36
+4:985  0:000    (Xsdt: DABE1088, Rsdt: DABE1028)
+4:985  0:000    DABE1088: 'XSDT', 'WN09   ', Rev: 1, Len: 140
+4:985  0:000    DABE1028: 'RSDT', 'WN09   ', Rev: 1, Len: 88
+4:985  0:000    Tables in Xsdt: 13
+4:985  0:000    0. DABF1788: 'FACP', 'WN09', Rev: 5, Len: 268
+4:985  0:000        (Dsdt: DABE11A0, Facs: DB56FF80, XDsdt: DABE11A0, XFacs: 0)
+4:985  0:000        DABE11A0: 'DSDT', 'WN09', Rev: 2, Len: 67044
+4:987  0:001        DB56FF80: 'FACS', Ver: 2, Len: 64
+4:987  0:000    1. DABF1898: 'APIC', 'WN09', Rev: 3, Len: 114
+4:987  0:000    2. DABF1910: 'FPDT', 'WN09', Rev: 1, Len: 68
+4:987  0:000    3. DABF1958: 'ASF!', ' HCG', Rev: 32, Len: 165
+4:987  0:000    4. DABF1A00: 'LPIT', '', Rev: 1, Len: 148
+4:987  0:000    5. DABF1A98: 'SSDT', 'sensrhub', Rev: 1, Len: 552
+4:987  0:000    6. DABF1CC0: 'SSDT', 'CpuPm', Rev: 1, Len: 2776
+4:987  0:000    7. DABF2798: 'MCFG', 'WN09', Rev: 1, Len: 60
+4:987  0:000    8. DABF27D8: 'HPET', 'WN09', Rev: 1, Len: 56
+4:987  0:000    9. DABF2810: 'SSDT', 'SataTabl', Rev: 1, Len: 789
+4:987  0:000    10. DABF2B28: 'SSDT', 'SaSsdt ', Rev: 1, Len: 13733
+4:987  0:000    11. DABF60D0: 'BGRT', 'WN09', Rev: 0, Len: 56
+4:987  0:000    12. DABF6108: 'CSRT', 'HSWULT-R', Rev: 1, Len: 196
+4:987  0:000    Tables in Rsdt: 13
+4:987  0:000    0. DABE1118: 'FACP', 'WN09', Rev: 2, Len: 132
+4:987  0:000        (Dsdt: DABE11A0, Facs: DB56FF40)
+4:987  0:000        DABE11A0: 'DSDT', 'WN09', Rev: 2, Len: 67044
+4:988  0:001        DB56FF40: 'FACS', Ver: 0, Len: 64
+4:988  0:000    1. DABF1898: 'APIC', 'WN09', Rev: 3, Len: 114
+4:988  0:000    2. DABF1910: 'FPDT', 'WN09', Rev: 1, Len: 68
+4:988  0:000    3. DABF1958: 'ASF!', ' HCG', Rev: 32, Len: 165
+4:988  0:000    4. DABF1A00: 'LPIT', '', Rev: 1, Len: 148
+4:988  0:000    5. DABF1A98: 'SSDT', 'sensrhub', Rev: 1, Len: 552
+4:988  0:000    6. DABF1CC0: 'SSDT', 'CpuPm', Rev: 1, Len: 2776
+4:988  0:000    7. DABF2798: 'MCFG', 'WN09', Rev: 1, Len: 60
+4:988  0:000    8. DABF27D8: 'HPET', 'WN09', Rev: 1, Len: 56
+4:988  0:000    9. DABF2810: 'SSDT', 'SataTabl', Rev: 1, Len: 789
+4:988  0:000    10. DABF2B28: 'SSDT', 'SaSsdt ', Rev: 1, Len: 13733
+4:988  0:000    11. DABF60D0: 'BGRT', 'WN09', Rev: 0, Len: 56
+4:988  0:000    12. DABF6108: 'CSRT', 'HSWULT-R', Rev: 1, Len: 196
